@@ -400,7 +400,8 @@
     function success(result) {
         console.log('result');
         console.log(result);
-        var textoFinal = tomarDespuesDeCincoBarras(result);
+        // var textoFinal = tomarDespuesDeCincoBarras(result);
+        const textoFinal = extraerToken(result);
         document.getElementById('buscador').value = textoFinal;
         scanner.clear();
         var button = document.getElementById('buscadorBoton');
@@ -408,6 +409,16 @@
         var input = document.getElementById('buscador');
         input.value = 'qrError';
     }
+    function extraerToken(url) {
+    // 1) intenta ?ID=token
+    const q = new URL(url).searchParams.get('ID');
+    if (q) return q;
+
+    // 2) fallback al viejo formato “.../informacionUsuario/token”
+    const parts = url.split('/');
+    return parts[parts.length - 1];
+}
+
 
     function error(err) {
         console.error(err);
